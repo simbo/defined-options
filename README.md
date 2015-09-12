@@ -1,9 +1,8 @@
 defined-options
 ========
 
-  > Define option properties with optional validation, filter and default 
-  > values. Read and write options as simple as possible. Provide methods for
-  > validating and merging option values.
+  > Define option properties with optional validation, filter and default value.
+  > Read, write, validate and merge option values as simple as possible.
 
 [![npm Package Version](https://img.shields.io/npm/v/defined-options.svg?style=flat-square)](https://www.npmjs.com/package/defined-options)
 [![MIT License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://simbo.mit-license.org)

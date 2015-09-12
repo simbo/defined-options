@@ -1,6 +1,6 @@
 {
   "name": "defined-options",
-  "description": "Define option properties with optional validation, filter and default values. Read and write options as simple as possible. Provide methods for validating and merging option values.",
+  "description": "Define option properties with optional validation, filter and default value. Read, write, validate and merge option values as simple as possible.",
   "keywords": [
     "options",
     "validate",
