@@ -1,0 +1,46 @@
+{
+  "name": "defined-options",
+  "description": "Define option properties with optional validation, filter and default values. Read and write options as simple as possible. Provide methods for validating and merging option values.",
+  "keywords": [
+    "options",
+    "validate",
+    "merge",
+    "extend"
+  ],
+  "author": "Simon Lepel <simbo@simbo.de> (http://simbo.de)",
+  "license": "MIT",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/simbo/defined-options.git"
+  },
+  "bugs": "https://github.com/simbo/defined-options/issues",
+  "main": "index.js",
+  "files": [
+    "lib/",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "scripts": {
+    "test": "mocha -R spec",
+    "lint": "jshint ./lib/*.js & jscs ./lib/*.js",
+    "cover": "istanbul cover ./node_modules/.bin/_mocha -- -R spec",
+    "watch": "mocha -R spec -w",
+    "codeclimate": "codeclimate-test-reporter < coverage/lcov.info"
+  },
+  "devDependencies": {
+    "codeclimate-test-reporter": "^0.1.0",
+    "istanbul": "^0.3.19",
+    "jscs": "^2.1.1",
+    "jshint": "^2.8.0",
+    "mocha": "^2.3.0"
+  }
+}
