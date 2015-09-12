@@ -15,14 +15,176 @@ defined-options
 
 ---
 
-# WORK IN PROGRESS
+# README IN PROGRESS
 
-## Example
 
-See [`example/index.js`]().
+## API
+
+See also [tests](https://github.com/simbo/gulpplug/blob/master/test/index.js)
+and [examples](https://github.com/simbo/gulpplug/blob/master/example/index.js).
+
+
+### `Options()`
+
+See [`lib/options.js`](https://github.com/simbo/gulpplug/blob/master/lib/options.js).
+
+Creates a new `Options` instance. Accepts an object with option definitions as
+optional argument.
 
 ``` javascript
+var Options = require('defined-options');
+
+var options = new Options({
+        text: {
+            validate: 'string!empty',
+            default: 'foo'
+        },
+        answer: {
+            validate: 'number>0',
+            default: 42
+        }
+    });
+
+console.log(options); // { text: [Getter/Setter], answer: [Getter/Setter] }
+console.log(options.getPlainObject()); // { text: 'foo', answer: 42 }
+console.log(options.text); // foo
+console.log(options.answer); // 42
 ```
+
+Options' properties have getters and setters defined via their descriptors. 
+This way validation and filtering is done automagically:
+
+``` javascript
+// option 'text' only accepts non-empty strings
+options.text = '';
+console.log(options.text); // foo
+options.text = 'bar';
+console.log(options.text); // bar
+
+// option 'answer' only accepts numbers > 0
+options.answer = -7;
+console.log(options.number); // 42
+options.answer = 5;
+console.log(options.number); // 5
+```
+
+
+#### `Options.prototype.defineOption()`
+
+Creates a new option property or replaces an existing one with same name.
+Accepts option definition as single argument or option name as first and
+option definition as second argument.
+
+``` javascript
+options.defineOption({name: 'text', validate: 'string'});
+// or
+options.defineOption('text', {validate: 'string'});
+```
+
+An option definition object can have the following properties:
+
+  - `name`  
+    *required*  
+    a non-empty string defining the option name
+
+  - `validate`  
+    default: `'any'`  
+    defines how to validate an options value
+      * a string defining a typetest shorthand
+      * a regular rexpression for match test
+      * a function, receiving a value test, returning a boolean
+      * an array of typetest shorthand strings, regular expressions and/or 
+        functions; validating an option value if any of these tests returns true
+
+  - `filter`  
+    default: `function(value) {return value;}`  
+    defines a filter function, receiving the validated value, returning the 
+    filtered value
+
+  - `default`  
+    default: `undefined`
+    defines an option's default value
+
+Example with all properties:
+
+``` javascript
+options.defineProperty({
+    name: 'shout',
+    default: 'HELLO!',
+    validate: 'string!empty',
+    filter: function(value) {
+        return value.toLowerCase();
+    }
+});
+
+console.log(options.shout); // HELLO!
+options.shout = 'bye!';
+options.shout = 1;
+console.log(options.shout); // BYE!
+```
+
+
+#### `Options.prototype.defineOptions()`
+
+
+
+
+#### `Options.prototype.removeOption()`
+
+
+
+
+#### `Options.prototype.hasOption()`
+
+
+
+
+#### `Options.prototype.getPlainObject()`
+
+
+
+
+#### `Options.prototype.mergeOptionValues()`
+
+
+
+
+#### `Options.prototype.mergeOptions()`
+
+
+
+
+#### `Options.prototype.getOptionDefinition()`
+
+
+
+
+#### `Options.prototype.getOptionDefinitions()`
+
+
+
+
+#### `Options.prototype.setDefaultOptionValue()`
+
+
+
+
+#### `Options.prototype.setDefaultOptionValues()`
+
+
+
+
+#### `Options.prototype.validateOptionValue()`
+
+
+
+
+#### `Options.prototype.validateOptionValues()`
+
+
+
+
+
 
 
 ## License

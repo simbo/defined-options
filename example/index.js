@@ -4,29 +4,28 @@ var Options = require('..');
 
 var options = new Options({
         text: {
+            validate: 'string!empty',
             default: 'foo',
-            validate: 'string!empty'
         },
-        number: {
-            default: 0,
-            validate: 'number>=0'
+        answer: {
+            validate: 'number>0',
+            default: 42
         }
     });
 
-console.log(options); // { text: [Getter/Setter], number: [Getter/Setter] }
-
-console.log(options.getPlainObject()); // { text: 'foo', number: 0 }
-
-options.text = '';
-options.number = 'hi';
-
+console.log(options); // { text: [Getter/Setter], answer: [Getter/Setter] }
+console.log(options.getPlainObject()); // { text: 'foo', answer: 42 }
 console.log(options.text); // foo
 console.log(options.number); // 0
 
+options.text = '';
+console.log(options.text); // foo
 options.text = 'bar';
-options.number = 5;
-
 console.log(options.text); // bar
+
+options.answer = false;
+console.log(options.number); // 42
+options.answer = 5;
 console.log(options.number); // 5
 
 options.defineOption('color', {
