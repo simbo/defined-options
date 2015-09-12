@@ -91,8 +91,8 @@ An option definition object can have the following properties:
     default: `'any'`  
     defines how to validate an options value
       * a string defining a typetest shorthand
-      * a regular rexpression for match test
-      * a function, receiving a value test, returning a boolean
+      * a regular rexpression for a match test
+      * a function, receiving a value to test, returning a boolean result
       * an array of typetest shorthand strings, regular expressions and/or 
         functions; validating an option value if any of these tests returns true
 

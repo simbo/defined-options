@@ -52,7 +52,7 @@ options.mergeOptionValues({
     text: 'Hello!'
 });
 
-console.log(options.getPlainObject()); // { text: 'Hello!', number: 5, color: 'blue' }
+console.log(options.getPlainObject()); // { text: 'Hello!', answer: 5, color: 'blue' }
 
 var test = options.validateOptionValues({
     color: 'red',
@@ -66,11 +66,11 @@ options.mergeOptionValues({
     text: 5
 });
 
-console.log(options.getPlainObject()); // { text: 'Hello!', number: 5, color: 'red' }
+console.log(options.getPlainObject()); // { text: 'Hello!', answer: 5, color: 'red' }
 
 options.defineOption('something');
 
-console.log(options.getPlainObject()); // { text: 'Hello!', number: 5, color: 'red', something: undefined }
+console.log(options.getPlainObject()); // { text: 'Hello!', answer: 5, color: 'red', something: undefined }
 
 console.log(options.getOptionDefinition('something').validate); // any
 
