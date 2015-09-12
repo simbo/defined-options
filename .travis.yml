@@ -1,13 +1,17 @@
 language: node_js
 node_js:
 - 0.12.0
-# deploy:
-#   provider: npm
-#   email: simbo@simbo.de
-#   api_key: ${NPM_API_KEY}
-#   on:
-#     tags: true
-#     repo: simbo/defined-options
 after_script:
 - npm run cover
 - npm run codeclimate
+deploy:
+  provider: npm
+  email: simbo@simbo.de
+  api_key: ${NPM_API_KEY}
+  on:
+    tags: true
+    repo: simbo/defined-options
+env:
+  global:
+  - secure: bFyVdJkW6+3p5iXuDSVuniknTwxEZO3+aIIcBlGJAS/yt1dP0ddaK9rY2AQwJyJdQO9gPpf174K9I1fHgzJ7XALdqbGN9FRe+FYVdBhJXTqxqon37VNyUUE25Ix0Hf5d80JG2E/0XQCbkQt9bnqWOERI1A77ntJ/Q8uze4BMlf0AcQSc4Rs1N485gvAmYoB67CnjsbnptZjP6wMMoGN36EGN7lRWx4Fh64t8cYlvN880/m6ojqRqPkKLYVRBWE13zKIjj5jezpCmlVwUbigpoCbuudnM3kQZy8a5uLLtEKNSdqFripWfgjPp+chz/I6i8gWnaUl6wKmjqUHhCdJBf1H1K9DF9dftT2bla3SFxecsxbYzjhHNFkBMSe27gJ9Jr0BajSgMzECMAwX0qihtJ58hyv+gQqW4j6gNcwGiiCo458qi8CfkWCSk/K3SySL1eS9zKDJecvX93BS+wt6EyRQjnZNMIaA1nNYCfn6gsDnaVxwh/LRN6/TBqnQloDfhU53p2bFQep2xI3aRWqfJToiGWu/eeEZRqFzfajXKKll+zf+AA4nQBccqgOMBBYGbiFEym6QiPcDhySa6uBEgUmtgie/mZwsXMiUd3Gi18bCaUP0zPCYMnp2EBbBgVNHttFj8XVYcWQC0tJiDIOa1qo+bL5MTI62UrZDDngJRSOs=
+  - secure: FPU7eZ2BSIqQuay1WcFtm+bloZMewi8OyhWm7soFOShtNXCto7qXJuwYHaoLHsxvrf9YsUAizZ/5QualalTZfOkiaTNDXBTR+wI7G1O0hW8dN6GtlVHG2qFBmY/vB8Wo14S8ScxSF+BMVLIPj0tFBe50mha4HHQ6OwWq+rTPP54hvqauscXazlVMNQYpmk+g3VnMoHQKa5OYdNsyM3s0YLlD8UfoEn1gQWe12D+frDWQRSIRVX0OFjACWzdHKtM93X60UuxvbidHnzfO2IOVsDGQh9s8CAkAH7ysxd6P7L6ETDYqplITIKMek+2F5xwU1xPBAZJJ0L6Icd4+Wqt3JyMgaS7knDpWuvrabJrTPYwRL/e4cHB0XJ2gjCfrclH/Ic03EIfbRbatAIpoN0hWEyiEvYr02lbpijDXBENrJ6ZODWpHBWirFrUdh8QxiFRK/9DTf0JtIY3znVEvENtV3qH9JIkTOQZWR6djnlvbe7a8lgpleXzmP+KNhq7EoFhU0qNzhSv9G6eZylmLSFebnaktSRfm+bi+g/o7UEfHZBbmtem2624vBr7I50ZQBz7SncI3Gvn0Rz/wjivZGT1p8aBBavAD1dppeqbmrQWfz343PgkZyNViSjHHC6RqhS4I76XF6kI24MiCOFx18kIbuedBAGRDHqg4Ii9yjSTD9CU=
