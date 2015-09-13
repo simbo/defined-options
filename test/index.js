@@ -120,13 +120,33 @@ describe('Options', function() {
         assert.deepEqual(JSON.stringify(options.getOptionDefinitions()), JSON.stringify(fixtures.initialDefinitions));
     });
 
-    it('should validate a persumable new value', function() {
+    it('should validate a current option value', function() {
+        var options = new Options(fixtures.initialOptions);
+        options.defineOption('foo',  {
+            validate: 'string!empty'
+        });
+        assert.equal(options.validateOptionValue('foo'), false);
+        options.foo = 'bar';
+        assert.equal(options.validateOptionValue('foo'), true);
+    });
+
+    it('should validate a persumable new option value', function() {
         var options = new Options(fixtures.initialOptions);
         assert.equal(options.validateOptionValue('foo', 'bar'), true);
         assert.equal(options.validateOptionValue('foo', 3), false);
     });
 
-    it('should test if all properties of an given object contain valid persumable values', function() {
+    it('should validate all current option values', function() {
+        var options = new Options(fixtures.initialOptions);
+        options.defineOption('foo',  {
+            validate: 'string!empty'
+        });
+        assert.equal(options.validateOptionValues(), false);
+        options.foo = 'bar';
+        assert.equal(options.validateOptionValues(), true);
+    });
+
+    it('should test if properties of an given object contain valid persumable new option values', function() {
         var options = new Options(fixtures.initialOptions);
         assert.equal(options.validateOptionValues({
             foo: 'bar',
