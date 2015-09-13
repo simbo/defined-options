@@ -104,127 +104,242 @@ describe('Options', function() {
         assert.equal(options.__options.foo.value, 'baz');
     });
 
-    it('should redefine an option', function() {
-        var options = new Options(fixtures.initialOptions);
-        options.defineOption('foo', {validate: 'number', default: 1});
-        assert.equal(options.foo, 1);
-    });
+    describe('.defineOptions()', function() {
 
-    it('should return an option definition', function() {
-        var options = new Options(fixtures.initialOptions);
-        assert.deepEqual(options.getOptionDefinition('foo'), new Option(fixtures.initialDefinitions.foo));
-    });
-
-    it('should return all option definitions', function() {
-        var options = new Options(fixtures.initialOptions);
-        assert.deepEqual(JSON.stringify(options.getOptionDefinitions()), JSON.stringify(fixtures.initialDefinitions));
-    });
-
-    it('should validate a current option value', function() {
-        var options = new Options(fixtures.initialOptions);
-        options.defineOption('foo',  {
-            validate: 'string!empty'
-        });
-        assert.equal(options.validateOptionValue('foo'), false);
-        options.foo = 'bar';
-        assert.equal(options.validateOptionValue('foo'), true);
-    });
-
-    it('should validate a persumable new option value', function() {
-        var options = new Options(fixtures.initialOptions);
-        assert.equal(options.validateOptionValue('foo', 'bar'), true);
-        assert.equal(options.validateOptionValue('foo', 3), false);
-    });
-
-    it('should validate all current option values', function() {
-        var options = new Options(fixtures.initialOptions);
-        options.defineOption('foo',  {
-            validate: 'string!empty'
-        });
-        assert.equal(options.validateOptionValues(), false);
-        options.foo = 'bar';
-        assert.equal(options.validateOptionValues(), true);
-    });
-
-    it('should test if properties of an given object contain valid persumable new option values', function() {
-        var options = new Options(fixtures.initialOptions);
-        assert.equal(options.validateOptionValues({
-            foo: 'bar',
-            answer: 13
-        }), true);
-        assert.equal(options.validateOptionValues({
-            foo: 3
-        }), false);
-        assert.equal(options.validateOptionValues({
-            foo: 'bar',
-            not: 'here'
-        }), false);
-        assert.equal(options.validateOptionValues({
-            foo: 'bar',
-            not: 'here'
-        }, true), true);
-        assert.equal(options.validateOptionValues({}), true);
-    });
-
-    it('should merge a plain object of option values with current option values', function() {
-        var options = new Options(fixtures.initialOptions);
-        var bla = {
-            answer: 13
-        };
-        options.mergeOptionValues(bla);
-        assert.deepEqual(options.getPlainObject(), {
-            answer: 13,
-            foo: 'bar'
+        it('should create a new option', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.defineOption('x', {default: 5});
+            assert.equal(options.x, 5);
         });
 
-        options.answer = 5;
+        it('should redefine an option', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.defineOption('foo', {validate: 'number', default: 1});
+            assert.equal(options.foo, 1);
+        });
+
+        it('should throw an error when trying to define an option called \'__options\'', function() {
+            var options = new Options(fixtures.initialOptions);
+            assert.throws(function() {
+                options.defineOption('__options');
+            }, /TypeError: Cannot redefine property: __options/);
+        });
+
     });
 
-    it('should merge options of another Options instance with current options', function() {
-        var options = new Options(fixtures.initialOptions);
-        var opts = new Options(fixtures.additionalOptions);
-        options.mergeOptions(opts);
-        assert.deepEqual(options.getPlainObject(), {
-            answer: 42,
-            foo: 'baz',
-            some: 'thing'
+    describe('.getOptionDefinition()', function() {
+
+        it('should return an option definition', function() {
+            var options = new Options(fixtures.initialOptions);
+            assert.deepEqual(options.getOptionDefinition('foo'), new Option(fixtures.initialDefinitions.foo));
         });
+
     });
 
-    it('should set a single option to its default value', function() {
-        var options = new Options(fixtures.initialOptions);
-        options.answer = 7;
-        assert.deepEqual(options.getPlainObject(), {
-            foo: 'bar',
-            answer: 7,
+    describe('.getOptionDefinitions()', function() {
+
+        it('should return all option definitions', function() {
+            var options = new Options(fixtures.initialOptions);
+            assert.deepEqual(JSON.stringify(options.getOptionDefinitions()), JSON.stringify(fixtures.initialDefinitions));
         });
-        options.setDefaultOptionValue('answer');
-        assert.deepEqual(options.getPlainObject(), {
-            foo: 'bar',
-            answer: 42
-        });
+
     });
 
-    it('should set all options to their default value', function() {
-        var options = new Options(fixtures.initialOptions);
-        options.foo = 'baz';
-        options.answer = 7;
-        assert.deepEqual(options.getPlainObject(), {
-            answer: 7,
-            foo: 'baz'
+    describe('.validateOptionValue()', function() {
+
+        it('should validate a current option value if no second argument is given', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.defineOption('foo',  {
+                validate: 'string!empty'
+            });
+            assert.equal(options.validateOptionValue('foo'), false);
+            options.foo = 'bar';
+            assert.equal(options.validateOptionValue('foo'), true);
         });
-        options.setDefaultOptionValues();
-        assert.deepEqual(options.getPlainObject(), {
-            answer: 42,
-            foo: 'bar'
+
+        it('should validate a persumable new option value', function() {
+            var options = new Options(fixtures.initialOptions);
+            assert.equal(options.validateOptionValue('foo', 'bar'), true);
+            assert.equal(options.validateOptionValue('foo', 3), false);
         });
+
     });
 
-    it('should throw an error when trying to define an option called \'__options\'', function() {
-        var options = new Options(fixtures.initialOptions);
-        assert.throws(function() {
-            options.defineOption('__options');
-        }, /TypeError: Cannot redefine property: __options/);
+    describe('.validateOptionValues()', function() {
+
+        it('should validate all current option values if no argument is given', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.defineOption('foo',  {
+                validate: 'string!empty'
+            });
+            assert.equal(options.validateOptionValues(), false);
+            options.foo = 'bar';
+            assert.equal(options.validateOptionValues(), true);
+        });
+
+        it('should test if properties of an given object contain valid persumable new option values', function() {
+            var options = new Options(fixtures.initialOptions);
+            assert.equal(options.validateOptionValues({
+                foo: 'bar',
+                answer: 13
+            }), true);
+            assert.equal(options.validateOptionValues({
+                foo: 3
+            }), false);
+            assert.equal(options.validateOptionValues({
+                foo: 'bar',
+                not: 'here'
+            }), false);
+            assert.equal(options.validateOptionValues({
+                foo: 'bar',
+                not: 'here'
+            }, true), true);
+            assert.equal(options.validateOptionValues({}), true);
+        });
+
+    });
+
+    describe('.validate()', function() {
+
+        it('should work as alias for .validateOptionValues() if no argument is given', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.defineOption('foo',  {
+                validate: 'string!empty'
+            });
+            assert.equal(options.validate(), false);
+            options.foo = 'bar';
+            assert.equal(options.validate(), true);
+        });
+
+        it('should work as alias for .validateOptionValue() if option name is given', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.defineOption('foo',  {
+                validate: 'string!empty'
+            });
+            assert.equal(options.validate('foo'), false);
+            options.foo = 'bar';
+            assert.equal(options.validate('foo'), true);
+        });
+
+    });
+
+    describe('.mergeOptionValues()', function() {
+
+        it('should merge a plain object of option values with current option values', function() {
+            var options = new Options(fixtures.initialOptions);
+            var bla = {
+                answer: 13
+            };
+            options.mergeOptionValues(bla);
+            assert.deepEqual(options.getPlainObject(), {
+                answer: 13,
+                foo: 'bar'
+            });
+            options.answer = 5;
+        });
+
+    });
+
+    describe('.merge()', function() {
+
+        it('should work as alias for .mergeOptionValues()', function() {
+            var options = new Options(fixtures.initialOptions);
+            var bla = {
+                answer: 13
+            };
+            options.merge(bla);
+            assert.deepEqual(options.getPlainObject(), {
+                answer: 13,
+                foo: 'bar'
+            });
+            options.answer = 5;
+        });
+
+    });
+
+    describe('.mergeOptions()', function() {
+
+        it('should merge options of another Options instance with current options', function() {
+            var options = new Options(fixtures.initialOptions);
+            var opts = new Options(fixtures.additionalOptions);
+            options.mergeOptions(opts);
+            assert.deepEqual(options.getPlainObject(), {
+                answer: 42,
+                foo: 'baz',
+                some: 'thing'
+            });
+        });
+
+    });
+
+    describe('.setDefaultOptionValue()', function() {
+
+        it('should set a single option to its default value', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.answer = 7;
+            assert.deepEqual(options.getPlainObject(), {
+                foo: 'bar',
+                answer: 7,
+            });
+            options.setDefaultOptionValue('answer');
+            assert.deepEqual(options.getPlainObject(), {
+                foo: 'bar',
+                answer: 42
+            });
+        });
+
+    });
+
+    describe('.setDefaultOptionValues()', function() {
+
+        it('should set all options to their default value', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.foo = 'baz';
+            options.answer = 7;
+            assert.deepEqual(options.getPlainObject(), {
+                answer: 7,
+                foo: 'baz'
+            });
+            options.setDefaultOptionValues();
+            assert.deepEqual(options.getPlainObject(), {
+                answer: 42,
+                foo: 'bar'
+            });
+        });
+
+    });
+
+    describe('.default()', function() {
+
+        it('should work as alias for .setDefaultOptionValues() if no argument is given', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.foo = 'baz';
+            options.answer = 7;
+            assert.deepEqual(options.getPlainObject(), {
+                answer: 7,
+                foo: 'baz'
+            });
+            options.default();
+            assert.deepEqual(options.getPlainObject(), {
+                answer: 42,
+                foo: 'bar'
+            });
+        });
+
+        it('should work as alias for .setDefaultOptionValue() if an option name is given', function() {
+            var options = new Options(fixtures.initialOptions);
+            options.answer = 7;
+            assert.deepEqual(options.getPlainObject(), {
+                foo: 'bar',
+                answer: 7,
+            });
+            options.default('answer');
+            assert.deepEqual(options.getPlainObject(), {
+                foo: 'bar',
+                answer: 42
+            });
+        });
+
     });
 
 });
