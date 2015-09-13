@@ -1,63 +1,12 @@
 'use strict';
 
-var assert = require('assert');
+var assert = require('assert'),
+    is = require('validate-by-shorthand').isType;
 
 var Options = require('..'),
-    Option = Options.Option,
-    isType = Options.isType;
+    Option = Options.Option;
 
 var fixtures = require('./fixtures.js');
-
-describe('isType', function() {
-
-    it('should do all type tests supported by util.is* functions', function() {
-        fixtures.typeFixtures.forEach(function(f) {
-            assert.equal(isType[f[0]](f[1]), true);
-            assert.equal(isType[f[0]](f[2]), false);
-        });
-    });
-
-    it('should provide all type tests in list: ' + fixtures.allTypeTests.join(', '), function() {
-        assert.deepEqual(Object.keys(isType), fixtures.allTypeTests);
-    });
-
-    it('should return expected results when testing for an array with elements of a specific type', function() {
-        fixtures.typeFixturesExtended.forEach(function(f) {
-            assert.equal(isType[f[0] + '[]']([f[1]]), true);
-            assert.equal(isType[f[0] + '[]']([f[2]]), false);
-        });
-    });
-
-    it('should return expected results when testing for an object with properties of a specific type', function() {
-        fixtures.typeFixturesExtended.forEach(function(f) {
-            assert.equal(isType[f[0] + '{}']({a: f[1]}), true);
-            assert.equal(isType[f[0] + '{}']({a: f[2]}), false);
-        });
-    });
-
-    it('should return expected results when testing for type \'any\'', function() {
-        assert.equal(isType.any(), true);
-    });
-
-    it('should return expected results when testing for type \'string!empty\'', function() {
-        assert.equal(isType['string!empty']('foo'), true);
-        assert.equal(isType['string!empty'](''), false);
-        assert.equal(isType['string!empty'](1), false);
-    });
-
-    it('should return expected results when testing for type \'array!empty\'', function() {
-        assert.equal(isType['array!empty']([1]), true);
-        assert.equal(isType['array!empty']([]), false);
-        assert.equal(isType['array!empty'](1), false);
-    });
-
-    it('should return expected results when testing for type \'object!empty\'', function() {
-        assert.equal(isType['object!empty']({a: 1}), true);
-        assert.equal(isType['object!empty']({}), false);
-        assert.equal(isType['object!empty'](1), false);
-    });
-
-});
 
 describe('Option', function() {
 
@@ -117,7 +66,7 @@ describe('Option', function() {
     it('should only change its filter function and filter values when setting', function() {
         option.validate = 'number';
         option.filter = function(value) {
-            return isType.number(this.value) ? this.value + value : value;
+            return is.number(this.value) ? this.value + value : value;
         };
         option.value = 1;
         assert.equal(option.value, 1);
