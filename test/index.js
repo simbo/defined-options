@@ -10,9 +10,9 @@ var fixtures = require('./fixtures.js');
 
 describe('Option', function() {
 
-    var option = new Option('foo');
 
     it('should create a valid instance from an option name string', function() {
+        var option = new Option('foo');
         assert.equal(option.name, 'foo');
         assert.equal(option.validate, 'any');
         assert.equal(typeof option.filter, 'function');
@@ -27,6 +27,7 @@ describe('Option', function() {
     });
 
     it('should change its name if new value is valid', function() {
+        var option = new Option('foo');
         option.name = 'bar';
         assert.equal(option.name, 'bar');
         option.name = 1;
@@ -34,12 +35,15 @@ describe('Option', function() {
     });
 
     it('should only change its validation test if new value is valid', function() {
-        option.validate = 'string';
+        var option = new Option({
+            name: 'foo',
+            validate: 'string'
+        });
         assert.equal(option.validate, 'string');
         option.validate = 1;
         assert.equal(option.validate, 'string');
         option.validate = function(value) {
-            return this.value === undefined;
+            return value === 'boom';
         };
         assert.equal(typeof option.validate, 'function');
         option.value = 'boom';
@@ -54,6 +58,7 @@ describe('Option', function() {
     });
 
     it('should only change its value if new value is valid according to given validation test', function() {
+        var option = new Option('foo');
         option.validate = 'string!empty';
         option.value = 'baz';
         assert.equal(option.value, 'baz');
@@ -64,6 +69,7 @@ describe('Option', function() {
     });
 
     it('should only change its filter function and filter values when setting', function() {
+        var option = new Option('foo');
         option.validate = 'number';
         option.filter = function(value) {
             return is('number', this.value) ? this.value + value : value;
