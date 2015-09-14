@@ -110,7 +110,7 @@ describe('Options', function() {
         assert.equal(options.__options.foo.value, 'baz');
     });
 
-    describe('.defineOptions()', function() {
+    describe('.defineOption()', function() {
 
         it('should create a new option', function() {
             var options = new Options(fixtures.initialOptions);
