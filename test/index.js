@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('assert'),
-    is = require('validate-by-shorthand').isType;
+    is = require('validate-by-shorthand');
 
 var Options = require('..'),
     Option = Options.Option;
@@ -66,7 +66,7 @@ describe('Option', function() {
     it('should only change its filter function and filter values when setting', function() {
         option.validate = 'number';
         option.filter = function(value) {
-            return is.number(this.value) ? this.value + value : value;
+            return is('number', this.value) ? this.value + value : value;
         };
         option.value = 1;
         assert.equal(option.value, 1);
