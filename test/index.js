@@ -140,6 +140,16 @@ describe('Options', function() {
             assert.deepEqual(options.getOptionDefinition('foo'), new Option(fixtures.initialDefinitions.foo));
         });
 
+        describe('option definition', function() {
+
+            it('should have current Options instance as property', function() {
+                var options = new Options(fixtures.initialOptions),
+                    foo = options.getOptionDefinition('foo');
+                assert.deepEqual(foo.options, options);
+            });
+
+        });
+
     });
 
     describe('.getOptionDefinitions()', function() {
