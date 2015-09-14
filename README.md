@@ -138,7 +138,8 @@ An option definition object can have the following properties:
 
   - `default`  
     default: `undefined`  
-    defines an option's default value
+    defines an option's default value; if set to a function, it will be called
+    to set the default value
 
 Example with all properties:
 

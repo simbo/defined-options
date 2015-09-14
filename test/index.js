@@ -80,6 +80,16 @@ describe('Option', function() {
         assert.equal(option.value, 2);
     });
 
+    it('should call the given function to set the default value, if a function is set as default property in option definition', function() {
+        var option = new Option({
+            name: 'now',
+            default: function() {
+                return new Date(0);
+            }
+        });
+        assert.deepEqual(option.value, new Date(0));
+    });
+
 });
 
 describe('Options', function() {
@@ -129,6 +139,25 @@ describe('Options', function() {
             assert.throws(function() {
                 options.defineOption('__options');
             }, /TypeError: Cannot redefine property: __options/);
+        });
+
+        it('should allow to access current Options instance when using a function to set an option\'s default value', function() {
+            var options = new Options({
+                    foo: {
+                        validate: 'string!empty',
+                        default: 'bar'
+                    },
+                    fullFoo: {
+                        validate: 'string',
+                        default: function() {
+                            return this.options.foo + '!!!';
+                        }
+                    }
+                });
+            assert.deepEqual(options.getPlainObject(), {
+                foo: 'bar',
+                fullFoo: 'bar!!!'
+            });
         });
 
     });
