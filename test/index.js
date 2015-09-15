@@ -252,6 +252,8 @@ describe('Options', function() {
                 validate: 'string!empty'
             });
             assert.equal(options.validate(), false);
+            assert.equal(options.validate({foo: 'bar'}), true);
+            assert.equal(options.validate({foo: 'bar', no: 'no'}, true), true);
             options.foo = 'bar';
             assert.equal(options.validate(), true);
         });
@@ -262,6 +264,7 @@ describe('Options', function() {
                 validate: 'string!empty'
             });
             assert.equal(options.validate('foo'), false);
+            assert.equal(options.validate('foo', 'bar'), true);
             options.foo = 'bar';
             assert.equal(options.validate('foo'), true);
         });
