@@ -90,9 +90,9 @@ console.log(options.text); // bar
 
 // option 'answer' only accepts numbers > 0
 options.answer = -7;
-console.log(options.number); // 42
+console.log(options.answer); // 42
 options.answer = 5;
-console.log(options.number); // 5
+console.log(options.answer); // 5
 ```
 
 
